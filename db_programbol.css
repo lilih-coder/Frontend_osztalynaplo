@@ -1,0 +1,132 @@
+/* Alapbeállítások */
+body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #333;
+      margin: 0;
+      padding: 0;
+  }
+  
+  /* Fejléc */
+  header {
+      background-color: #0066cc;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 2rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Gombok */
+  form input[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  form input[type="submit"]:hover {
+      background-color: #0056b3;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+  }
+  
+  form input[type="submit"]:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Táblázatok */
+  table {
+      width: 90%;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+  }
+  
+  table th, table td {
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid #ddd;
+  }
+  
+  table th {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+  }
+  
+  table tr:nth-child(even) {
+      background-color: #f2f2f2;
+  }
+  
+  table tr:hover {
+      background-color: #d9edf7;
+  }
+  
+  /* Lábjegyzet */
+  footer {
+      background-color: #0066cc;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Kiemelések */
+  .highlight {
+      background-color: #ffeb3b;
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
+      font-weight: bold;
+  }
+  
+  /* Űrlapok */
+  form {
+      text-align: center;
+      margin: 2rem 0;
+  }
+  
+  form input[type="text"], form select {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      transition: all 0.3s ease-in-out;
+  }
+  
+  form input[type="text"]:focus, form select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Animáció */
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+      }
+      to {
+          opacity: 1;
+      }
+  }
+  
+  body {
+      animation: fadeIn 1s ease-in-out;
+  }
+  
