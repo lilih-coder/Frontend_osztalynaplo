@@ -15,34 +15,38 @@ functionok:
 */ 
 function showClasses($year)
 {
+      echo '<table>';
       echo '<form method="post">';
       echo "<input type='hidden' name='year' value='$year'>\r\n";
 
       foreach (getClasses($year) as $index => $row) {
             $name=$row['name'];
             $id=$row['id'];
-            echo "<input type='submit' name='className' value='$name'>\r\n";
+            echo "<tr><th colspan='2'><input type='submit' name='className' value='$name'>\r\n</th></tr>";
       
             foreach (showAverageOfAClassGroupedBySubject($id) as $index => $row) {
                   $subjectName=$row['name'];
                   $avg=$row['avg'];
-                  echo '<div>Tanulmányi átlag ['.$subjectName.']: '.$avg.'</div>';
+                  echo '<tr><td style="text-align: left;"><div> '.$subjectName.': </td><td>'.$avg.'</div></td></tr>';
             }
       }
-      
-      echo $year.'Top 10 tanulója<br>';
-      echo '---------------------<br>';
+      echo '</table>';
+      echo '<table>';
+      echo '<tr><th colspan="3">' . $year.' Top 10 tanulója<br></th></tr>';
+      //echo '---------------------<br>';
       foreach (showTop10StudentsOfAYearWithAverage($year) as $index => $row) {
             $name=$row['name'];
             $avg=$row['avg'];
-            echo 'Top '.$index.' tanuló: '.$name.' ['.$avg.']<br>';
+            echo '<tr><td style="text-align: left;">'.$index+1 .'.</td><td style="text-align: left;"> '.$name.' </td><td>'.$avg.'<br></td></tr>';
       }
       
       echo '</form>';
+      echo '<table>';
 }
 
 function showStudents($year, $className)
 {
+      echo'<table>';
       echo '<form method="post">';
 
       echo "<input type='hidden' name='year' value='$year'>\r\n";
@@ -51,21 +55,22 @@ function showStudents($year, $className)
       foreach (getStudentsByClassName($className) as $index => $row) {
             $name=$row['name'];
             $id=$row['id'];
-            echo "<input type='submit' name='student' value='$name'>\r\n";
+            echo "<tr><th colspan='2'><input type='submit' name='student' value='$name'>\r\n</th></tr>";
 
             foreach (showAverageOfAStudent($id) as $index => $row) {
                   $avg=$row['avg'];
-                  echo '<div>Tanulmányi átlag: '.$avg.'</div>';
+                  echo '<tr><td colspan="2"><div>Tanulmányi átlag: '.$avg.'</div></tr></td>';
             }
 
             foreach (showAverageOfAStudentGroupedBySubject($id) as $index => $row) {
                   $subjectName=$row['name'];
                   $avg=$row['avg'];
-                  echo '<div>Tanulmányi átlag ['.$subjectName.']: '.$avg.'</div>';
+                  echo '<tr><td style="text-align: left;"><div>'.$subjectName.'</td><td> '.$avg.'</div></div></tr>';
             }            
       }
 
       echo '</form>';
+      echo'</table>';
 }
 
 function grade() {
@@ -77,26 +82,31 @@ function grade() {
       ';
       if (isset($_POST['year'])) {
             $year=$_POST['year'];
-            echo 'Kiválasztott év: '.$year;
+            echo '<table><tr><th>Kiválasztott év: '.$year . '<br></th></tr></table>';
             showClasses($year);
       } 
       if (isset($_POST['className'])) {
             $className=$_POST['className'];
-            echo 'Kiválasztott osztály: '.$className.'<br>';
+            echo '<table><tr><th>Kiválasztott osztály: '.$className.'<br></th></tr>';
 
             foreach (showAverageOfAClass($className) as $index => $row) {
                   $avg=$row['avg'];
-                  echo 'Osztályátlag: '.$avg;
+                  echo '<tr><th>Osztályátlag: '.$avg . '</th></tr>';
             }
 
             showStudents($year, $className);
+
+            echo'<table>';
+            echo'<tr><th colspan="3">A '.$className.' osztály Top 10 tanulója</th></tr>';
+            foreach (showTop10StudentsWithAverage() as $index => $row) {
+                  $name=$row['name'];
+                  $avg=$row['avg'];
+                  echo '<tr><td style="text-align: left;">' . $index + 1 .'. </td><td style="text-align: left;">'.$name.'</td><td> '.$avg.'' . '<br></td></tr>';
+            }
+            echo'</table>';
       }
 
       
-      foreach (showTop10StudentsWithAverage() as $index => $row) {
-            $name=$row['name'];
-            $avg=$row['avg'];
-            echo '<tr>Top '.$index + 1 .' tanuló: '.$name.' ['.$avg.']' . '<br></tr>';
-      }
 }
+
 ?>

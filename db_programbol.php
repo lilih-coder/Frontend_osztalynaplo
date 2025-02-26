@@ -12,7 +12,7 @@ if(isset($_POST['creator'])){
       createSubjectsTable();
       createClassesTable();
       createMarksTable(); 
-      createValues();
+      createValues();     
       //placeholder();      
 }
 

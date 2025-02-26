@@ -58,10 +58,18 @@ body {
       text-align: center;
       padding: 1rem;
       border: 1px solid #ddd;
+      /*background-color: #0056b3;*/   
   }
   
-  table th {
-      background-color: #007bff;
+  th {
+      background-color: #00318b;
+      color: white;
+      font-weight: bold;
+      font-size: 25px;
+    }
+
+    tr {
+    background-color: #007bff;
       color: white;
       font-weight: bold;
       font-size: 1.1rem;
@@ -74,6 +82,7 @@ body {
   table tr:hover {
       background-color: #d9edf7;
   }
+  
   
   /* Lábjegyzet */
   footer {
