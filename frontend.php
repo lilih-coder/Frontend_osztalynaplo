@@ -13,6 +13,37 @@ functionok:
 
 
 */ 
+
+
+function htmlHead()
+{
+      echo '
+    <!DOCTYPE html>
+    <html lang="hu">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osztálynapló</title>
+    <link rel="stylesheet" href="db_programbol.css">
+    </head>
+    <body>';
+
+}
+
+function showMainPage()
+{
+      echo '
+      <form method="post">
+            <input type="submit" name="creator" value="dbCreator" >
+      </form>    
+      ';
+      openAdminPage();
+      if (!isset($_POST['admin'])) {
+            openGradePage();
+      }
+
+}
+
 function showClasses($year)
 {
       echo '<table>';
@@ -73,7 +104,7 @@ function showStudents($year, $className)
       echo'</table>';
 }
 
-function grade() {
+function openGradePage() {
       echo '
       <form method="post">
             <input type="submit" name="year" value="2025">

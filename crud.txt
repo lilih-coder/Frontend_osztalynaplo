@@ -1,0 +1,8 @@
+select -> osztályok megjelenítése
+
+design: 
+-főmenü szalag
+-dbcreator külön szín
+-Főoldal Admin külön szín -> Admin piros
+-Táblázatok rendezése
+-Crud gombok design
