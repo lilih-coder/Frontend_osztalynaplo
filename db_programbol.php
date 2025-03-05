@@ -167,7 +167,14 @@ function getAllSubjects(){
       return $result;
 }
 
+function getAllMarks(){
+      $dbName = DB_NAME;
+      $database = connectToDB("mysql");
+      $result = $database->query("select * from $dbName.marks");
+      $database->close();
 
+      return $result;
+}
 
 function getClasses($year)
 {

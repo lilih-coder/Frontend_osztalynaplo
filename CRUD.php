@@ -26,6 +26,10 @@ function openAdminPage()
             $_SESSION['selectClass'] = $_POST['selectClass'];
       }
 
+      if (isset($_POST['selectStudent'])){
+            $_SESSION['selectStudent'] = $_POST['selectStudent'];
+      }
+
       /*    Admin műveletek */
 
       if (isset($_POST['admin'])) {
@@ -80,6 +84,10 @@ function openAdminPage()
 
       if (isset($_POST['editSubjectTable'])){
             showSubjectsTable();
+      }
+
+      if (isset($_POST['editMarkTable'])){
+            showMarksTable();
       }
 
 }
@@ -296,6 +304,78 @@ function showSubjectsTable() {
             }
             echo"</table>";
 
+}
+
+function showMarksTable(){
+      echo "
+      <form>
+      <input type='hidden' name='admin' value='Admin'>
+      </form>
+      ";
+      /*
+      echo "
+      <table>
+      <tr>
+      <th>Tanuló</th>
+      <th>Tantárgy</th>
+      <th>Jegy</th>
+      <th>Dátum</th>
+      </tr>
+      ";
+            echo"
+            <tr><td>$student_id</td><td>$subject_id</td><td>$mark</td><td>$date</td></tr>
+            ";
+      echo"</table>";
+      */
+      $selectedStudent = isset($_POST['selectStudent']) ? $_POST['selectStudent'] : null;
+
+      $students = [];
+      foreach (getAllMarks() as $index => $row){
+            $id = $row['id'];
+            $student_id = $row['student_id'];
+            $subject_id = $row['subject_id'];
+            $mark = $row['mark'];
+            $date = $row['date'];
+      }
+      $uniqueStudents = array_values(array_unique($students));
+
+      $dbName = DB_NAME;
+      $database = connectToDB("mysql");
+      $placeholders = implode(',', array_fill(0, count($uniqueStudents), '?'));
+
+      $query = "select id, name from $dbName.marks where id in ($placeholders)";
+      $stmt = $database->prepare($query);
+      $types = str_repeat('i', count($uniqueStudents));
+      $stmt->bind_param($types, ...$uniqueStudents);
+
+      $stmt->execute();
+
+      $result = $stmt->get_result();
+      $results = $result->fetch_all(MYSQLI_ASSOC);
+
+      echo "
+            <form method='post'>
+                  <input type='hidden' name='admin' value='Admin'>
+                  <label for='classes' style='color:white; font-size:18px;'>Válasszon tanulót:</label>
+                  <select name='selectClass' id='classes>";
+
+      foreach ($results as $row) {
+            $id = $row['id'];
+            $student_id = $row['student_id'];
+            $selected = ($id == $selectedStudent) ? 'selected' : '';
+
+            echo "<option value='$id' $selected>$student_id</option>";
+      }
+
+      echo "
+                  </select>
+                  <input type='submit' name='submitShowStudent' value='Kiválaszt'>
+            </form>
+      ";
+
+      echo"
+
+      ";
 }
 
 function showClassEditor()
