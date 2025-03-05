@@ -158,6 +158,15 @@ function getAllStudents()
       return $result;
 }
 
+function getAllSubjects(){
+      $dbName = DB_NAME;
+      $database = connectToDB("mysql");
+      $result = $database->query("select * from $dbName.subjects");
+      $database->close();
+
+      return $result;
+}
+
 
 
 function getClasses($year)
@@ -199,15 +208,13 @@ function saveStudentToDB($id, $name, $class_id)
 
             return $result;
      
-      } else {
+      } elseif ($id) {
             $database->query("update $dbName.students set name='$name', class_id='$class_id' where id = $id");
             $result = mysqli_affected_rows($database);
             $database->close();
 
             return $result; 
       }
-      
-      return $result;
 }
 
 function deleteClassFromDB($id){

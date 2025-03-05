@@ -78,6 +78,10 @@ function openAdminPage()
             showDeleteStudentConfirm();
       }
 
+      if (isset($_POST['editSubjectTable'])){
+            showSubjectsTable();
+      }
+
 }
 
 function showCRUDButtons()
@@ -253,6 +257,45 @@ function showSelectedClassStudents()
 
             }
       }
+}
+
+function showSubjectsTable() {
+            echo"
+            <form method='post'>
+            <input type='hidden' name='admin' value='Admin'>
+            <input type='submit' name='editStubject' value='Új tantárgy hozzáadása'>
+            </form>
+            <table>
+            <tr>
+            <th>Tantárgy</th>
+            <th>Műveletek</th>
+            </tr>
+            ";
+            foreach(getAllSubjects() as $index => $row){
+                  $subject = $row['name'];
+                  $id = $row['id'];
+                  echo"
+                  <tr>
+                        <td>$subject</td>
+                        <td>
+                              <form method='post' style='display:inline-block; margin-right: 40px;'>
+                              <input type='hidden' name='admin' value='Admin'>
+                              <input type='hidden' name='id' value='$id'>
+                              <input type='hidden' name='name' value='$subject'>
+                              <input type='submit' name='editSubject' value='Módosít' class='changeDeleteButtons'>
+                              </form>
+                              <form method='post' style='display:inline-block;'>
+                              <input type='hidden' name='admin' value='Admin'>
+                              <input type='hidden' name='id' value='$id'>
+                              <input type='hidden' name='name' value='$subject'>
+                              <input type='submit' name='deleteSubject' value='Töröl' class='changeDeleteButtons'>
+                              </form>
+                        </td>
+                  </tr>
+                  ";
+            }
+            echo"</table>";
+
 }
 
 function showClassEditor()
