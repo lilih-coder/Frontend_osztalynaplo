@@ -186,19 +186,28 @@ function saveClassToDB($id, $name, $year)
       }
 }
 
-function saveStudentToDB($id, $name)
+function saveStudentToDB($id, $name, $class_id)
 {
-      if ($id) {
-            $dbName = DB_NAME;
-            $database = connectToDB("mysql");
-            $database->query("update $dbName.students set name='$name' where id = $id");
+      $dbName = DB_NAME;
+      $database = connectToDB("mysql");
+
+      if ($id === null) {
+
+            $database->query("insert into $dbName.students (name, class_id) values (?, ?)");
+            $result = mysqli_affected_rows($database);
+            $database->close();
+
+            return $result;
+     
+      } else {
+            $database->query("update $dbName.students set name='$name', class_id='$class_id' where id = $id");
             $result = mysqli_affected_rows($database);
             $database->close();
 
             return $result; 
       }
-      else {
-            return insertValues("students", "name", "'$name'");      }
+      
+      return $result;
 }
 
 function deleteClassFromDB($id){

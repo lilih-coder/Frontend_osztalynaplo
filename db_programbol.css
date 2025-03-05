@@ -42,6 +42,121 @@ body {
       transform: translateY(0);
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
+
+form input[type="submit"].mainButtons {
+    position: relative;
+    background-color: #000a2c; 
+    color: white;
+    padding: 0.8rem 2.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"].mainButtons:hover {
+    background-color: #0033dc; /* Sötétebb zöld hover állapotban */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+form input[type="submit"].mainPageButton {
+    position: relative;
+    top: -35px;    /* Eltolás a form tetejétől */
+    left: 900px;   /* Eltolás a form bal szélétől */
+    background-color: #003cff; 
+    color: white;
+    padding: 0.8rem 2.2rem;
+    width: 150px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"].mainPageButton:hover {
+    background-color: #0033dc; /* Sötétebb zöld hover állapotban */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+form input[type="submit"].adminPageButton {
+    position: relative;
+    top: -35px;    /* Eltolás a form tetejétől */
+    left: 900px;   /* Eltolás a form bal szélétől */
+    background-color: #c92222; 
+    color: white;
+    padding: 0.8rem 2.5rem;
+    width: 150px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"].adminPageButton:hover {
+    background-color: #7b1717; /* Sötétebb zöld hover állapotban */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+form input[type="submit"].crudButtons {
+    position: relative;
+    top: -70px;    /* Eltolás a form tetejétől */
+    left: 0px;   /* Eltolás a form bal szélétől */
+    width: 200px;
+    height: 60px;
+    background-color: #0069d9;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"].crudButtons:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/*Módosít + Töröl gombok*/
+form input[type="submit"].changeDeleteButtons {
+    background-color: white;
+    color: #007bff;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"].changeDeleteButtons:hover {
+    background-color: rgb(202, 202, 202);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+form input[type="submit"].changeDeleteButtons:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
   
   /* Táblázatok */
   table {
@@ -138,4 +253,5 @@ body {
   body {
       animation: fadeIn 1s ease-in-out;
   }
+
   

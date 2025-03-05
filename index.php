@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include_once "db_programbol.php";
 include_once "frontend.php";
 

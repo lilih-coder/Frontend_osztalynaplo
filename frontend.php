@@ -34,7 +34,7 @@ function showMainPage()
 {
       echo '
       <form method="post">
-            <input type="submit" name="creator" value="dbCreator" >
+            <input type="submit" name="creator" value="dbCreator" class="mainButtons">
       </form>    
       ';
       openAdminPage();

@@ -15,12 +15,18 @@ function openAdminPage()
 {
       echo '<form method="post">';
       if (!isset($_POST['admin'])) {
-            echo "<input type='submit' name='admin' value='Admin'>\r\n";
+            echo "<input type='submit' name='admin' value='Admin' class='adminPageButton'>\r\n";
       }
       if (isset($_POST['admin'])) {
-            echo "<input type='submit' name='' value='Főoldal'>\r";
+            echo "<input type='submit' name='' value='Főoldal' class='mainPageButton'>\r";
       }
       echo '</form>';
+
+      if (isset($_POST['selectClass'])){
+            $_SESSION['selectClass'] = $_POST['selectClass'];
+      }
+
+      /*    Admin műveletek */
 
       if (isset($_POST['admin'])) {
             showCRUDButtons();
@@ -58,14 +64,15 @@ function openAdminPage()
             showStudentTable();
       }
 
+      if (isset($_POST['editStudent'])) {
+            showStudentEditor();
+      }
+
       if (isset($_POST['submitShowClass'])) {
             showStudentTable();
             showSelectedClassStudents();
       }
-
-      if (isset($_POST['editStudent'])) {
-            showStudentEditor();
-      }
+      
 
       if (isset($_POST['deleteStudent'])) {
             showDeleteStudentConfirm();
@@ -78,10 +85,10 @@ function showCRUDButtons()
       echo '<form method="post">';
       echo "<input type='hidden' name='admin' value='Admin'>\r\n";
 
-      echo "<input type='submit' name='editYearTable' value='Évfolyam/Osztály'>\r";
-      echo "<input type='submit' name='editStudentTable' value='Diák'>\r";
-      echo "<input type='submit' name='editSubjectTable' value='Tantárgy'>\r\n";
-      echo "<input type='submit' name='editMarkTable' value='Jegy'>\r\n";
+      echo "<input type='submit' name='editYearTable' value='Évfolyam/Osztály' class='crudButtons'>\r";
+      echo "<input type='submit' name='editStudentTable' value='Diák'class='crudButtons'>\r";
+      echo "<input type='submit' name='editSubjectTable' value='Tantárgy' class='crudButtons'>\r\n";
+      echo "<input type='submit' name='editMarkTable' value='Jegy' class='crudButtons'>\r\n";
 
       echo '</form>';
 }
@@ -91,7 +98,7 @@ function showYearTable()
       echo "
       <form method='post'>
             <input type='hidden' name='admin' value='Admin'>
-            <input type='submit' name='editClass' value='Új'>
+            <input type='submit' name='editClass' value='Osztály hozzáadása'>
       </form> 
       ";
 
@@ -105,19 +112,19 @@ function showYearTable()
             echo "<tr>
                   <td>$name</td>
                   <td>$year</td>
-                  <td><form method='post'>
+                  <td><form method='post' style='display:inline-block; margin-right: 40px;'>
                   <input type='hidden' name='admin' value='Admin'>
                   <input type='hidden' name='id' value='$id'>
                   <input type='hidden' name='year' value='$year'>
                   <input type='hidden' name='name' value='$name'>
-                  <input type='submit' name='editClass' value='Módosít'>
-                  </form> / 
-                  <form method='post'>
+                  <input type='submit' name='editClass' value='Módosít' class='changeDeleteButtons'>
+                  </form> 
+                  <form method='post' style='display:inline-block;'>
                   <input type='hidden' name='admin' value='Admin'>
                   <input type='hidden' name='id' value='$id'>
                   <input type='hidden' name='year' value='$year'>
                   <input type='hidden' name='name' value='$name'>
-                  <input type='submit' name='deleteClassConfirm' value='Töröl'>
+                  <input type='submit' name='deleteClassConfirm' value='Töröl' class='changeDeleteButtons'>
                   </form></td>
             </tr>";
       }
@@ -132,6 +139,8 @@ function showStudentTable()
             <input type='hidden' name='admin' value='Admin'>            
             </form> 
       ";
+
+      $selectedClass = isset($_POST['selectClass']) ? $_POST['selectClass'] : null;
 
       $classes = [];
       foreach (getAllStudents() as $index => $row) {
@@ -159,13 +168,15 @@ function showStudentTable()
       echo "
             <form method='post'>
                   <input type='hidden' name='admin' value='Admin'>
-                  <label for='classes'>Válasszon osztályt:</label>
+                  <label for='classes' style='color:white; font-size:18px;'>Válasszon osztályt:</label>
                   <select name='selectClass' id='classes>";
 
       foreach ($results as $row) {
             $id = $row['id'];
             $name = $row['name'];
-            echo "<option value='$id'>$name</option>";
+            $selected = ($id == $selectedClass) ? 'selected' : '';
+
+            echo "<option value='$id' $selected>$name</option>";
       }
 
       echo "
@@ -180,6 +191,22 @@ function showSelectedClassStudents()
 {  
       if (isset($_POST['submitShowClass']) && isset($_POST['selectClass'])) {
             $selectedClass = $_POST['selectClass'];
+            
+            $dbName = DB_NAME;
+            $database = connectToDB("mysql");
+
+            $query = "select name from $dbName.classes where id = ?";
+            $stmt = $database->prepare($query);
+            $stmt->bind_param('i', $selectedClass);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if($row = $result->fetch_assoc()){
+                  $selectedClassName = $row['name'];
+            } else {
+                  $selectedClassName = "Ismretlen osztály";
+            }
 
             $dbName = DB_NAME;
             $database = connectToDB("mysql");
@@ -197,26 +224,27 @@ function showSelectedClassStudents()
                   echo "<input type='hidden' name='admin' value='Admin'>\r\n";
                   echo "<input type='submit' name='editStudent' value='Új tanuló hozzáadása'>";
                   echo '</form>';
-                  echo '<h2>A kiválasztott osztály tanulói:</h2>';
                   echo '<table>';
+                  echo '<form>';
+                  echo "<th colspan=2>A $selectedClassName osztály tanulói:</th>";
+                  echo '</form>';                 
                   foreach ($students as $student) {
                         $id = $student['id'];
                         $name = $student['name'];
                         echo "<tr>
                               <td style='text-align: left;'>$name</td>  
                               <td>
-                                    <form method='post'>
+                                    <form method='post' style='display:inline-block; margin-right: 40px;'>
                                     <input type='hidden' name='admin' value='Admin'>
                                     <input type='hidden' name='id' value='$id'>
                                     <input type='hidden' name='name' value='$name'>
-                                    <input type='submit' name='editStudent' value='Módosít'>
+                                    <input type='submit' name='editStudent' value='Módosít' class='changeDeleteButtons'>
                                     </form>
-                                    <p> / </p>
-                                    <form method='post'>
+                                    <form method='post' style='display:inline-block;'>
                                     <input type='hidden' name='admin' value='Admin'>
                                     <input type='hidden' name='id' value='$id'>
                                     <input type='hidden' name='name' value='$name'>
-                                    <input type='submit' name='deleteStudent' value='Töröl'>
+                                    <input type='submit' name='deleteStudent' value='Töröl' class='changeDeleteButtons'>
                                     </form>
                               </td>
                               </tr>";
@@ -351,9 +379,11 @@ function saveClass()
 
 function saveStudent()
 {
-      $id = $_POST["id"];
-      $name = $_POST["name"];
-      $result = saveStudentToDB($id, $name, );
+      $id = isset($_POST["id"]) ? $_POST["id"] : null;
+      $name = isset($_POST["name"]) ? $_POST["name"] : null;
+      $class_id = isset($_SESSION['selectClass']) ? $_SESSION['selectClass'] : null;
+
+      $result = saveStudentToDB($id, $name, $class_id);
       if ($result == 0) {
             showErrorMessage("A mentés nem sikerült!");
       }
